@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spinning Wheel Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <style>
+        .wheel-container {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+            aspect-ratio: 1/1;
+        }
+        .wheel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .pointer-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            height: 50%;
+            z-index: 10;
+            object-fit: contain;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const SpinningWheel = () => {
+            const [rotation, setRotation] = React.useState(0);
+            const [isSpinning, setIsSpinning] = React.useState(false);
+            
+            const handleSpin = () => {
+                if (isSpinning) return;
+                setIsSpinning(true);
+                const spins = 5 + Math.random() * 5;
+                const extraDegrees = Math.random() * 360;
+                const totalDegrees = spins * 360 + extraDegrees;
+                setRotation(prevRotation => prevRotation + totalDegrees);
+                setTimeout(() => setIsSpinning(false), 3000);
+            };
+
+            return (
+                <div className="flex items-center justify-center min-h-screen">
+                    <div className="wheel-container">
+                        <img 
+                            src="KOLO SRECE.png" 
+                            alt="Wheel" 
+                            className="wheel-image"
+                            style={{
+                                transform: `rotate(${rotation}deg)`,
+                                transition: 'transform 3s cubic-bezier(0.2, 0.8, 0.2, 1)',
+                            }}
+                        />
+                        <img 
+                            src="kazalec.png"
+                            alt="Pointer"
+                            className="pointer-image"
+                            onClick={handleSpin}
+                            style={{ cursor: isSpinning ? 'default' : 'pointer' }}
+                        />
+                    </div>
+                </div>
+            );
+        };
+        ReactDOM.render(<SpinningWheel />, document.getElementById('root'));
+    </script>
+</body>
+</html>
