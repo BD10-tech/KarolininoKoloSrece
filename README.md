@@ -1,0 +1,2 @@
+# KarolininoKoloSrece
+Karolinino kolo sreče
